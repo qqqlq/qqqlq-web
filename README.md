@@ -28,12 +28,21 @@
 - **Styling / UI**: Chakra UI
 - **Markdown Rendering**: `react-markdown`
 
-# 記事の追加方法(備忘録)
+# 記事・写真の追加方法
 
+本サイトは現在 **Firebase (Firestore / Storage / Authentication)** をヘッドレスCMSとして利用しています。
+新しい記事や写真を追加する際の推奨手順（CMS）と、従来のソースコードを編集する手順（静的ファイル）の2通りが存在します。
 
-現在は React コンポーネント上に直接記述することも可能だが、`react-markdown` を導入したため、今後は **Markdown (.md) ファイル** でブログ記事を作成するフローを推奨。
+## 1. 推奨手順 (Firebase CMS経由)
+1. ブラウザで `/admin` にアクセスし、管理用のメールアドレスとパスワードでログインする。
+2. **Dashboard** から「新しい記事を書く」または「写真をアップロード」を選択する。
+3. フォームに従って入力し、「投稿」ボタンを押す。
+   - **ブログ記事について**: 内容は Markdown 形式で記述でき、自動でパースサれます。概要（Description）を入力すると、カード一覧で表示されます。
+   - **タグについて**: `"React"` や `"Firebase"` といったプレーンテキストを入力してください。未定義のタグであっても、ハッシュベースで決定論的に（常に同じ）色が自動で割り当てられるため、ソースコードを編集する必要はありません。
 
-## Markdown を用いた記事の追加手順
+## 2. 従来の記事追加方法 (静的ファイル・ハードコーディング)
+
+CMSを利用せず、ソースコード（React コンポーネント）上に直接記事を追加・管理する従来の手順です。
 
 1. `@/components/ui/Contents/[任意のブログ名]` ディレクトリを作成する。
 2. そのディレクトリ内に `記事名.md`（例：`new-post.md`）を作成し、Markdown 形式で記事を書く。
@@ -64,11 +73,18 @@ export default NewPost;
 4. Tech Blog 一覧画面（`Home.tsx` や `Blogs.tsx` など）に表示する用の**カードコンポーネント**（`B[ブログのparams等]Card.tsx`）を作成する。
 5. `@/components/ui/Contents/BlogRoutes.tsx` にて、手順3で作った `NewPost.tsx` などを import してルーティング (`<Route path="new-post" element={<NewPost />} />`) を追加する。
 6. 一覧画面（`Blogs.tsx`など）および `@/components/ui/Contents/BlogSearch.tsx` にて、手順4で作ったカードコンポーネントを追加する。
-7. 従来のタグにない新しいタグを指定する場合、`@/constants/tags.ts` にて該当のタグと表示色 (`colorPalette`) の設定を追加する。
+7. （必要に応じて）特定の静的色を強制したい場合は、`@/constants/tags.ts` にて該当のタグと表示色 (`colorPalette`) の定義を追加する。
 
 # Changelog (変更履歴)
 
-- **2026-03-01**
+- **2026-03** (Firebase CMS導入)
+  - Firebase Authentication を用いたセキュアな管理者専用画面 (`/admin`) を構築。
+  - Firebase Firestore を用いたブログ記事・写真メタデータの動的取得およびリアルタイム更新(`onSnapshot`)に対応。
+  - Firebase Storage への写真アップロード機能を実装。
+  - トップページ(`Home`)、ブログ一覧(`Blogs`)、タグ検索ページ(`BlogSearch`)をすべてFirestoreから動的にデータを読み込むようにリライト。
+  - 未定義タグに対して、文字列のハッシュ値から一貫したテーマカラーを自動設定する機能を導入。
+
+- **2026-03-01** (ポートフォリオ化)
   - 技術ブログ専用からポートフォリオサイト(Home, Photography機能)を統合する形へリニューアル。
   - ルーティング構造を刷新し、ランディングページ(`/`)と写真ギャラリー(`/photography`)を追加。
   - Chakra UI v3 の最新仕様に合わせてコードを修正。
