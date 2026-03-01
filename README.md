@@ -1,6 +1,6 @@
 # サイトコンセプトについて
 
-本サイトは、これまでの「技術ブログ」としての役割を拡張し、写真の展示(Photography)機能を含めた包括的な個人ポートフォリオサイトとして再構築中です。今後は以下の3つの主要コンテンツで構成されます：
+本サイトは、これまでの「技術ブログ」としての役割を拡張し、写真の展示(Photography)機能を含めた包括的な個人ポートフォリオサイトとして再構築中。今後は以下の3つの主要コンテンツで構成：
 1. **ポートフォリオ**: プログラミングや写真撮影といった活動全体を紹介するランディングページ
 2. **Photography**: 趣味の写真作品をギャラリー形式で魅せる写真集（当面はダミー画像で構築し、将来的にCloudinaryなどの外部BaaSやCMSと連携予定）
 3. **Tech Blog**: 従来の技術ブログ
@@ -19,8 +19,8 @@
   - 画像ホバー時には拡大とシャドウ強調のエフェクトが発動。
 
 ## 2. 写真データ管理
-- 現在は `src/constants/photos.ts` にて、Unsplashのダミー画像URLとタイトル・説明を配列(`DUMMY_PHOTOS`)として定義しています。
-- 将来的には、この配列を外部の BaaS (Cloudinary など) やヘッドレス CMS (microCMS, Contentful) の API 呼び出しに置き換えることで、動的なギャラリーへと容易に拡張可能です。
+- 現在は `src/constants/photos.ts` にて、Unsplashのダミー画像URLとタイトル・説明を配列(`DUMMY_PHOTOS`)として定義。
+- 将来的には、この配列を外部の BaaS (Cloudinary など) やヘッドレス CMS (microCMS, Contentful) の API 呼び出しに置き換えることで、動的なギャラリーへと容易に拡張可能。
 
 ## 3. 主要テクノロジースタック
 - **Framework**: React + Vite
@@ -31,81 +31,40 @@
 # 記事の追加方法(備忘録)
 
 
-qqqlq-web(技術ブログ)における記事追加の流れを以下に記す。
+現在は React コンポーネント上に直接記述することも可能だが、`react-markdown` を導入したため、今後は **Markdown (.md) ファイル** でブログ記事を作成するフローを推奨。
 
-## 1. 記事ファイルの作成
+## Markdown を用いた記事の追加手順
 
-`@/components/ui/Contents`下に任意のディレクトリを作成し以下テンプレートをもとに"B[ブログのparams等].tsx"と"B[ブログのparams等]Card.tsx"を作成する。
+1. `@/components/ui/Contents/[任意のブログ名]` ディレクトリを作成する。
+2. そのディレクトリ内に `記事名.md`（例：`new-post.md`）を作成し、Markdown 形式で記事を書く。
+3. 同じディレクトリ内に `記事名.tsx` を作成し、以下のように Markdown ファイルを読み込んでレンダリングするコンポーネントを作る（`BlogMD/BMD.tsx` を参考に）。
 
-***BSample.tsx***
-```js:BSample.tsx
-import { Stack, Text } from "@chakra-ui/react"
+```tsx
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import markDownContent from './new-post.md?raw'; // 末尾に ?raw をつける
 import BlogHead from "../BlogHead";
 
-const BlogSample = () => {
+const NewPost = () => {
   return (
     <>
-      <BlogHead title="サンプル投稿" params="sample" tags={["learning", "sample"]} />
-      // コンテンツ
+      <BlogHead title="新しい記事のタイトル" params="new-post" tags={["タグ1", "タグ2"]} />
+      <div className="markdown-body">
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          {markDownContent}
+        </ReactMarkdown>
+      </div>
     </>
-  )
+  );
 }
-export default BlogSample;
-```
-***BSampleCard.tsx***
-```tsx:BSampleCard.tsx
-import { Card, Heading, Tag, HStack} from "@chakra-ui/react"
-import { useNavigate } from "react-router-dom";
-import { TagColor } from "../../../../constants/tags";
 
-const BSampleCard = () => {
-
-  const navigate = useNavigate();
-
-  const goToBlog = () => {
-    navigate("/blog/sample");
-  };
-
-  // タグ色々
-  const tags = ["learning", "sample"];
-
-  return (
-    <>
-      <Card.Root width="100%" onClick={goToBlog} cursor="pointer">
-          <Card.Header>
-            <HStack gap={2} justifyContent="space-between">
-              <Heading size="md">サンプル投稿</Heading>
-              <HStack gap={2}>
-                {tags.map(tag => (
-                  <Tag.Root key={tag} cursor="pointer" colorPalette={TagColor[tag] || "gray"}>
-                    <Tag.Label>{tag}</Tag.Label>
-                  </Tag.Root>
-                ))}
-              </HStack>
-            </HStack>
-          </Card.Header>
-          <Card.Body color="fg.muted">
-            これはサンプルです。
-          </Card.Body>
-        </Card.Root>
-    </>
-  )
-}
-export default BSampleCard;
+export default NewPost;
 ```
 
-## 2. 記事内容の執筆
-
-手順1にて作成した"B[ブログのparams等].tsx"にjsxで頑張る。
-
-## 3. Cardの飾り
-
-- 当記事のタイトル(なるべく短く)とサイト内での場所(パスパラメータ)、適切なtag("B...Card.tsx" の `tags` 配列)を決める。
-- 決定事項をもとに"B[ブログのparams等].tsx"のBlogHeadコンポーネントに各propsを設定する。
-- "B[ブログのparams等]Card.tsx"のgoToBlog関数のnavigateの引数を当記事のパスパラメータに設定する。
-- `@/components/ui/Contents/BlogRoutes.tsx`にて"B[ブログのparams等].tsx"をimportしてルーティングする。
-- `@/components/ui/Contents/BlogSearch.tsx`にて新しく作成したカードコンポーネントをimportし、`BTags`配列に追加する。
-- 従来のタグにない新しいタグを指定する場合、`@/constants/tags.ts`にて該当のタグと表示色(colorPalette)の設定を追加する。
+4. Tech Blog 一覧画面（`Home.tsx` や `Blogs.tsx` など）に表示する用の**カードコンポーネント**（`B[ブログのparams等]Card.tsx`）を作成する。
+5. `@/components/ui/Contents/BlogRoutes.tsx` にて、手順3で作った `NewPost.tsx` などを import してルーティング (`<Route path="new-post" element={<NewPost />} />`) を追加する。
+6. 一覧画面（`Blogs.tsx`など）および `@/components/ui/Contents/BlogSearch.tsx` にて、手順4で作ったカードコンポーネントを追加する。
+7. 従来のタグにない新しいタグを指定する場合、`@/constants/tags.ts` にて該当のタグと表示色 (`colorPalette`) の設定を追加する。
 
 # Changelog (変更履歴)
 
