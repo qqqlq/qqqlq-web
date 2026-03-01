@@ -5,7 +5,7 @@ import { Provider } from "@/components/ui/provider"
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Provider>
+    <Provider defaultTheme="dark">
       <App />
     </Provider>
   </React.StrictMode>,
