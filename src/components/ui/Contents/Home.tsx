@@ -44,9 +44,9 @@ const Home = () => {
                 boxShadow="xl"
             >
                 <Heading size="3xl" mb={6}>Hi, I'm qqqlq</Heading>
-                <Text fontSize="xl" maxW="2xl" mx="auto" mb={8}>
+                {/* <Text fontSize="xl" maxW="2xl" mx="auto" mb={8}>
                     ソフトウェアエンジニア兼アマチュアフォトグラファー。ここには私の日々の技術的な学びや、趣味で撮影した写真のポートフォリオをまとめています。
-                </Text>
+                </Text> */}
             </Box>
 
             {loading ? (
