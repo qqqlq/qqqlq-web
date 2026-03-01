@@ -93,7 +93,7 @@ const Home = () => {
                     <Box>
                         <Box display="flex" justifyContent="space-between" alignItems="center" mb={6} px={4}>
                             <Heading size="xl">Tech Blog</Heading>
-                            <Button variant="outline" colorPalette="blue" onClick={() => navigate("/blog")}>
+                            <Button variant="outline" colorPalette="blue" onClick={() => navigate("/blog/tag")}>
                                 Read More
                             </Button>
                         </Box>
@@ -109,6 +109,7 @@ const Home = () => {
                                             title={blog.title}
                                             pathParams={blog.pathParams}
                                             tags={blog.tags}
+                                            description={blog.description}
                                         />
                                     ))}
                                 </VStack>
