@@ -22,7 +22,7 @@ const Photography = () => {
             <Box textAlign="center" pt={10} pb={6}>
                 <Heading size="2xl" mb={4}>Photography</Heading>
                 <Text color="fg.muted" fontSize="lg">
-                    趣味で撮影した写真のギャラリーです。
+                    {/* 趣味で撮影した写真のギャラリーです。 */}
                 </Text>
             </Box>
 
