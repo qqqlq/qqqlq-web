@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { TagColor } from "../../../constants/tags";
+import { getTagColor } from "../../../constants/tags";
 import {
     Stack,
     Tag,
@@ -87,12 +87,12 @@ const BlogSearch = () => {
                 {AllTags.map(tag => (
                     <div key={tag} onClick={() => toggleTag(tag)}>
                         {selectedTags[tag] ? (
-                            <Tag.Root variant="solid" cursor="pointer" colorPalette={TagColor[tag] || "gray"}>
+                            <Tag.Root variant="solid" cursor="pointer" colorPalette={getTagColor(tag)}>
                                 <Tag.Label>{tag}</Tag.Label>
                                 <Tag.CloseTrigger onClick={(e) => { e.stopPropagation(); toggleTag(tag); }} />
                             </Tag.Root>
                         ) : (
-                            <Tag.Root cursor="pointer" colorPalette={TagColor[tag] || "gray"}>
+                            <Tag.Root cursor="pointer" colorPalette={getTagColor(tag)}>
                                 <Tag.StartElement as={HiPlus} />
                                 <Tag.Label>{tag}</Tag.Label>
                             </Tag.Root>

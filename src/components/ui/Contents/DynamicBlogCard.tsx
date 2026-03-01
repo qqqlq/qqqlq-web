@@ -1,6 +1,6 @@
 import { Card, Heading, Tag, HStack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { TagColor } from "../../../constants/tags";
+import { getTagColor } from "../../../constants/tags";
 
 interface DynamicBlogCardProps {
     title: string;
@@ -24,7 +24,7 @@ const DynamicBlogCard = ({ title, pathParams, tags, description }: DynamicBlogCa
                     <HStack gap={2} flexShrink={0}>
                         {tags.map(tag => (
                             // @ts-ignore
-                            <Tag.Root key={tag} colorPalette={TagColor[tag] || "gray"}>
+                            <Tag.Root key={tag} colorPalette={getTagColor(tag)}>
                                 <Tag.Label>{tag}</Tag.Label>
                             </Tag.Root>
                         ))}

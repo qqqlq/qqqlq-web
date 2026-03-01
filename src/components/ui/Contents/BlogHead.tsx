@@ -8,6 +8,7 @@ import {
   Tag,
 } from "@chakra-ui/react";
 import { RiArrowDropRightLine } from "react-icons/ri"
+import { getTagColor } from "../../../constants/tags";
 
 type BlogProps = {
   params: string;
@@ -20,19 +21,6 @@ const BlogHead = (props: BlogProps) => {
   const goToTop = () => navigate("/");
   const goToTags = () => navigate("/blog/tag");
   const goToBlog = () => navigate(`/blog/${props.params}`);
-
-  // タグの色を定義
-  const TagColor: { [key: string]: string } = {
-    learning: "purple",
-    Chakra: "teal",
-    React: "orange",
-    Markdown: "red",
-    Expo: "purple",
-    "expo-router": "orange",
-    ルーティング: "red",
-    "React Native": "green",
-  };
-
   return (
     <>
       <Separator orientation="vertical" />
@@ -55,10 +43,10 @@ const BlogHead = (props: BlogProps) => {
 
       <Stack direction="row" gap={4} wrap="wrap">
         {props.tags.map(tag => (
-          <Tag.Root 
-            key={tag} 
-            cursor="pointer" 
-            colorPalette={TagColor[tag] || "gray"}
+          <Tag.Root
+            key={tag}
+            cursor="pointer"
+            colorPalette={getTagColor(tag)}
           >
             <Tag.Label>{tag}</Tag.Label>
           </Tag.Root>

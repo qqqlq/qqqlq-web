@@ -1,6 +1,6 @@
 import { Card, Heading, Tag, HStack } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
-import { TagColor } from "../../../../constants/tags";
+import { getTagColor } from "../../../../constants/tags";
 
 const BExpoRoutingCard = () => {
 
@@ -21,7 +21,7 @@ const BExpoRoutingCard = () => {
             <Heading size="md">Expo動的ルーティング</Heading>
             <HStack gap={2}>
               {tags.map(tag => (
-                <Tag.Root key={tag} cursor="pointer" colorPalette={TagColor[tag] || "gray"}>
+                <Tag.Root key={tag} cursor="pointer" colorPalette={getTagColor(tag)}>
                   <Tag.Label>{tag}</Tag.Label>
                 </Tag.Root>
               ))}
