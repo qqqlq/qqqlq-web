@@ -1,4 +1,4 @@
-import { Box, Heading, Button, VStack, Flex, Text, Card } from '@chakra-ui/react';
+import { Box, Heading, Button, VStack, Flex, Text, Card, Image, HStack } from '@chakra-ui/react';
 import { auth, db } from '../../../lib/firebase';
 import { signOut } from 'firebase/auth';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
@@ -71,7 +71,22 @@ const Dashboard = () => {
                         {photos.map(photo => (
                             <Card.Root key={photo.id} size="sm">
                                 <Card.Body>
-                                    <Heading size="sm">{photo.title}</Heading>
+                                    <HStack gap={3}>
+                                        {photo.url && (
+                                            <Image
+                                                src={photo.url}
+                                                alt={photo.title}
+                                                boxSize="60px"
+                                                objectFit="cover"
+                                                borderRadius="md"
+                                                flexShrink={0}
+                                            />
+                                        )}
+                                        <Box>
+                                            <Heading size="sm">{photo.title}</Heading>
+                                            {photo.description && <Text fontSize="xs" color="fg.muted" mt={1}>{photo.description}</Text>}
+                                        </Box>
+                                    </HStack>
                                 </Card.Body>
                             </Card.Root>
                         ))}

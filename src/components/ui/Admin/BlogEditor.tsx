@@ -10,6 +10,7 @@ const BlogEditor = () => {
     const [title, setTitle] = useState('');
     const [pathParams, setPathParams] = useState('');
     const [tagsInput, setTagsInput] = useState('');
+    const [description, setDescription] = useState('');
     const [content, setContent] = useState('');
     const [loading, setLoading] = useState(false);
     // @ts-ignore
@@ -31,6 +32,7 @@ const BlogEditor = () => {
             await addDoc(collection(db, 'blogs'), {
                 title,
                 pathParams,
+                description,
                 tags,
                 content,
                 createdAt: serverTimestamp(),
@@ -66,6 +68,7 @@ const BlogEditor = () => {
                 <Input placeholder="URLのパス (例: my-new-post)" value={pathParams} onChange={(e) => setPathParams(e.target.value)} flex={1} />
                 <Input placeholder="タグ (カンマ区切り)" value={tagsInput} onChange={(e) => setTagsInput(e.target.value)} flex={1} />
             </HStack>
+            <Input placeholder="概要・説明 (記事一覧に短く表示されます)" value={description} onChange={(e) => setDescription(e.target.value)} />
 
             <Flex gap={4} flex={1} minH="0">
                 {/* Editor Tab */}
