@@ -1,8 +1,9 @@
-import { Card, Heading, HStack, Tag} from "@chakra-ui/react"
+import { Card, Heading, HStack, Tag } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
+import { TagColor } from "../../../../constants/tags";
 
 const BInitialCard = () => {
-  
+
   const navigate = useNavigate();
 
   const goToBlog = () => {
@@ -10,29 +11,27 @@ const BInitialCard = () => {
   };
 
   // タグ色々
-  const TagInfo = [
-    { tag: "learning", color: "purple" },
-  ];
+  const tags = ["learning"];
 
   return (
     <>
       <Card.Root width="100%" onClick={goToBlog} cursor="pointer">
-          <Card.Header>
-            <HStack gap={2} justifyContent="space-between">
-                <Heading size="md"> I'm qqqlq.</Heading>
-                <HStack gap={2}>
-                    {TagInfo.map(tag => (
-                        <Tag.Root key={tag.tag} cursor="pointer" colorPalette={tag.color}>
-                            <Tag.Label>{tag.tag}</Tag.Label>
-                        </Tag.Root>
-                    ))}
-                </HStack>
+        <Card.Header>
+          <HStack gap={2} justifyContent="space-between">
+            <Heading size="md"> I'm qqqlq.</Heading>
+            <HStack gap={2}>
+              {tags.map(tag => (
+                <Tag.Root key={tag} cursor="pointer" colorPalette={TagColor[tag] || "gray"}>
+                  <Tag.Label>{tag}</Tag.Label>
+                </Tag.Root>
+              ))}
             </HStack>
-          </Card.Header>
-          <Card.Body color="fg.muted">
-            This is an initial post. This blog was created using React.
-          </Card.Body>
-        </Card.Root>
+          </HStack>
+        </Card.Header>
+        <Card.Body color="fg.muted">
+          最初の投稿です。このブログはReactで作成されました。
+        </Card.Body>
+      </Card.Root>
     </>
   )
 }

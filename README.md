@@ -15,7 +15,7 @@ import BlogHead from "../BlogHead";
 const BlogSample = () => {
   return (
     <>
-      <BlogHead title="sample post" params="sample" tags={["learning", "sample"]} />
+      <BlogHead title="サンプル投稿" params="sample" tags={["learning", "sample"]} />
       // コンテンツ
     </>
   )
@@ -23,9 +23,10 @@ const BlogSample = () => {
 export default BlogSample;
 ```
 ***BSampleCard.tsx***
-```js:BSampleCard.tsx
+```tsx:BSampleCard.tsx
 import { Card, Heading, Tag, HStack} from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
+import { TagColor } from "../../../../constants/tags";
 
 const BSampleCard = () => {
 
@@ -36,28 +37,25 @@ const BSampleCard = () => {
   };
 
   // タグ色々
-  const TagInfo = [
-    { tag: "learning", color: "purple" },
-    { tsg: "sample", color: "red"},
-  ];
+  const tags = ["learning", "sample"];
 
   return (
     <>
       <Card.Root width="100%" onClick={goToBlog} cursor="pointer">
           <Card.Header>
             <HStack gap={2} justifyContent="space-between">
-              <Heading size="md">Sample Post</Heading>
+              <Heading size="md">サンプル投稿</Heading>
               <HStack gap={2}>
-                {TagInfo.map(tag => (
-                  <Tag.Root key={tag.tag} cursor="pointer" colorPalette={tag.color}>
-                    <Tag.Label>{tag.tag}</Tag.Label>
+                {tags.map(tag => (
+                  <Tag.Root key={tag} cursor="pointer" colorPalette={TagColor[tag] || "gray"}>
+                    <Tag.Label>{tag}</Tag.Label>
                   </Tag.Root>
                 ))}
               </HStack>
             </HStack>
           </Card.Header>
           <Card.Body color="fg.muted">
-            This is a sample.
+            これはサンプルです。
           </Card.Body>
         </Card.Root>
     </>
@@ -72,9 +70,9 @@ export default BSampleCard;
 
 ## 3. Cardの飾り
 
-- 当記事のタイトル(なるべく短く)とサイト内での場所(パスパラメータ)、適切なtag(タグの色なども含む)を決める。
+- 当記事のタイトル(なるべく短く)とサイト内での場所(パスパラメータ)、適切なtag("B...Card.tsx" の `tags` 配列)を決める。
 - 決定事項をもとに"B[ブログのparams等].tsx"のBlogHeadコンポーネントに各propsを設定する。
-- "B[ブログのparams等]Card.tsx"のgoToBlog関数のnavigateの引数を当記事のパスパラメータに設定する。TagsInfoのオブジェクトについても該当するものを書き込む。
-- `@/components/Contents/BlogRoutes.tsx`にて"B[ブログのparams等].tsx"をimportしてルーティングする。
-- 従来のタグにないものを指定する場合、`@/components/Contents/BlogSearch.tsx`にてBTagsとTagColorにそれぞれ決めた情報を追加する。
-- 従来のタグ以外のものを指定する場合、`@/components/COntents/BlogHead.tsx`にも同様にTagColorの情報を追加する。
+- "B[ブログのparams等]Card.tsx"のgoToBlog関数のnavigateの引数を当記事のパスパラメータに設定する。
+- `@/components/ui/Contents/BlogRoutes.tsx`にて"B[ブログのparams等].tsx"をimportしてルーティングする。
+- `@/components/ui/Contents/BlogSearch.tsx`にて新しく作成したカードコンポーネントをimportし、`BTags`配列に追加する。
+- 従来のタグにない新しいタグを指定する場合、`@/constants/tags.ts`にて該当のタグと表示色(colorPalette)の設定を追加する。

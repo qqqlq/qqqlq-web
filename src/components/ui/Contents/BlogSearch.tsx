@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { TagColor } from "../../../constants/tags";
 import {
     Stack,
     Tag,
@@ -28,7 +29,7 @@ const BlogSearch = () => {
 
     // タグごとの状態を管理する
     const [selectedTags, setSelectedTags] = useState<Record<string, boolean>>({});
-    
+
     // タグが一度でも選択されたかどうかを管理
     const [hasTagBeenSelected, setHasTagBeenSelected] = useState(false);
 
@@ -46,24 +47,16 @@ const BlogSearch = () => {
 
     // ここでタグのデータを定義
     const BTags = [
-        {id: 0, component: BlogTest, tags: ["Chakra", "React", "learning"]},
-        {id: 1, component: BlogInitial, tags: ["learning",]},
-        {id: 2, component: BMDCard, tags: ["React", "learning", "Markdown"]},
-        {id: 3, component: BExpoRoutingCard, tags: ["Expo", "expo-router", "ルーティング", "React Native"]},
-        {id: 4, component: BExpoRoutingTipsCard, tags: ["Expo", "expo-router", "ルーティング", "React Native"]},
+        { id: 0, component: BlogTest, tags: ["Chakra", "React", "learning"] },
+        { id: 1, component: BlogInitial, tags: ["learning",] },
+        { id: 2, component: BMDCard, tags: ["React", "learning", "Markdown"] },
+        { id: 3, component: BExpoRoutingCard, tags: ["Expo", "expo-router", "ルーティング", "React Native"] },
+        { id: 4, component: BExpoRoutingTipsCard, tags: ["Expo", "expo-router", "ルーティング", "React Native"] },
     ];
 
-    // タグの色を定義
-    const TagColor: { [key: string]: string } = {
-        learning: "purple",
-        Chakra: "teal",
-        React: "orange",
-        Markdown: "red",
-        Expo: "purple",
-        "expo-router": "orange",
-        ルーティング: "red",
-        "React Native": "green",
-    };
+    // タグのデータを定義
+    // const BTags = ...
+
 
     // 全てのタグをマージした配列
     const AllTags = Array.from(new Set(BTags.flatMap(item => item.tags)));
@@ -71,7 +64,7 @@ const BlogSearch = () => {
     // 全てのコンポーネントを取得する関数
     const getAllComponents = () => {
         return BTags
-            .map(item => ({id: item.id, Component: item.component}))
+            .map(item => ({ id: item.id, Component: item.component }))
             .sort((a, b) => b.id - a.id);
     };
 
@@ -79,9 +72,9 @@ const BlogSearch = () => {
     const getSearchedComponents = () => {
         return Object.keys(selectedTags)
             .filter(tag => selectedTags[tag])
-            .flatMap(tag => 
+            .flatMap(tag =>
                 BTags.filter(item => item.tags.includes(tag))
-                    .map(item => ({id: item.id, Component: item.component}))
+                    .map(item => ({ id: item.id, Component: item.component }))
             );
     }
 
@@ -97,7 +90,7 @@ const BlogSearch = () => {
             getSearchedComponents().reduce((acc, item) => {
                 acc[item.id] = item; // 同じidなら上書きされる
                 return acc;
-            }, {} as Record<number, {id:number; Component:any}>)
+            }, {} as Record<number, { id: number; Component: any }>)
         );
         return SearchedComponents.sort((a, b) => b.id - a.id);
     };
@@ -125,7 +118,7 @@ const BlogSearch = () => {
                 </HStack>
             </Box>
             <Separator orientation="vertical" />
-                     
+
             <Stack direction="row" gap={4} wrap="wrap">
                 {AllTags.map(tag => (
                     <div key={tag} onClick={() => toggleTag(tag)}>

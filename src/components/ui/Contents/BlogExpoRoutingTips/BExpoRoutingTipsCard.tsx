@@ -1,5 +1,6 @@
-import { Card, Heading, Tag, HStack} from "@chakra-ui/react"
+import { Card, Heading, Tag, HStack } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
+import { TagColor } from "../../../../constants/tags";
 
 const BExpoRoutingTipsCard = () => {
 
@@ -10,32 +11,27 @@ const BExpoRoutingTipsCard = () => {
   };
 
   // タグ色々
-  const TagInfo = [
-    { tag: "Expo", color: "purple" },
-    { tag: "expo-router", color: "orange"},
-    { tag: "ルーティング", color: "red"},
-    { tag: "React Native", color: "green"},
-  ];
+  const tags = ["Expo", "expo-router", "ルーティング", "React Native"];
 
   return (
     <>
       <Card.Root width="100%" onClick={goToBlog} cursor="pointer">
-          <Card.Header>
-            <HStack gap={2} justifyContent="space-between">
-              <Heading size="md">expo-router tips</Heading>
-              <HStack gap={2}>
-                {TagInfo.map(tag => (
-                  <Tag.Root key={tag.tag} cursor="pointer" colorPalette={tag.color}>
-                    <Tag.Label>{tag.tag}</Tag.Label>
-                  </Tag.Root>
-                ))}
-              </HStack>
+        <Card.Header>
+          <HStack gap={2} justifyContent="space-between">
+            <Heading size="md">expo-router tips</Heading>
+            <HStack gap={2}>
+              {tags.map(tag => (
+                <Tag.Root key={tag} cursor="pointer" colorPalette={TagColor[tag] || "gray"}>
+                  <Tag.Label>{tag}</Tag.Label>
+                </Tag.Root>
+              ))}
             </HStack>
-          </Card.Header>
-          <Card.Body color="fg.muted">
-            expo-routerのルーティングのTips
-          </Card.Body>
-        </Card.Root>
+          </HStack>
+        </Card.Header>
+        <Card.Body color="fg.muted">
+          expo-routerのルーティングのTips
+        </Card.Body>
+      </Card.Root>
     </>
   )
 }
