@@ -1,12 +1,33 @@
-import { Box, Heading, Text, VStack, SimpleGrid, Image, Button } from "@chakra-ui/react";
+import { Box, Heading, Text, VStack, SimpleGrid, Image, Button, Spinner, Center } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { DUMMY_PHOTOS } from "../../../constants/photos";
-import BExpoRoutingTipsCard from "./BlogExpoRoutingTips/BExpoRoutingTipsCard";
-import BExpoRoutingCard from "./BlogExpoRouting/BExpoRoutingCard";
-import BMDCard from "./BlogMD/BMDCard";
+import { useEffect, useState } from "react";
+import { collection, query, orderBy, limit, onSnapshot } from "firebase/firestore";
+import { db } from "../../../lib/firebase";
+import DynamicBlogCard from "./DynamicBlogCard";
 
 const Home = () => {
     const navigate = useNavigate();
+    const [blogs, setBlogs] = useState<any[]>([]);
+    const [photos, setPhotos] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const qBlogs = query(collection(db, 'blogs'), orderBy('createdAt', 'desc'), limit(3));
+        const unsubBlogs = onSnapshot(qBlogs, (snapshot) => {
+            setBlogs(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+            setLoading(false);
+        });
+
+        const qPhotos = query(collection(db, 'photos'), orderBy('createdAt', 'desc'), limit(3));
+        const unsubPhotos = onSnapshot(qPhotos, (snapshot) => {
+            setPhotos(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        });
+
+        return () => {
+            unsubBlogs();
+            unsubPhotos();
+        };
+    }, []);
 
     return (
         <VStack gap={12} align="stretch" w="100%" py={10}>
@@ -28,56 +49,74 @@ const Home = () => {
                 </Text>
             </Box>
 
-            {/* Photography Preview Section */}
-            <Box>
-                <Box display="flex" justifyContent="space-between" alignItems="center" mb={6} px={4}>
-                    <Heading size="xl">Photography</Heading>
-                    <Button variant="outline" colorPalette="teal" onClick={() => navigate("/photography")}>
-                        View All
-                    </Button>
-                </Box>
-                <SimpleGrid columns={{ base: 1, md: 3 }} gap={6} px={4}>
-                    {DUMMY_PHOTOS.slice(0, 3).map((photo) => (
-                        <Box
-                            key={photo.id}
-                            borderRadius="xl"
-                            overflow="hidden"
-                            boxShadow="md"
-                            cursor="pointer"
-                            transition="transform 0.2s"
-                            _hover={{ transform: "translateY(-4px)" }}
-                            onClick={() => navigate("/photography")}
-                        >
-                            <Image
-                                src={photo.url}
-                                alt={photo.title}
-                                objectFit="cover"
-                                h="250px"
-                                w="100%"
-                            />
+            {loading ? (
+                <Center h="20vh"><Spinner size="xl" /></Center>
+            ) : (
+                <>
+                    {/* Photography Preview Section */}
+                    <Box>
+                        <Box display="flex" justifyContent="space-between" alignItems="center" mb={6} px={4}>
+                            <Heading size="xl">Photography</Heading>
+                            <Button variant="outline" colorPalette="teal" onClick={() => navigate("/photography")}>
+                                View All
+                            </Button>
                         </Box>
-                    ))}
-                </SimpleGrid>
-            </Box>
+                        {photos.length === 0 ? (
+                            <Text px={4} color="fg.muted">まだ写真がありません。</Text>
+                        ) : (
+                            <SimpleGrid columns={{ base: 1, md: 3 }} gap={6} px={4}>
+                                {photos.map((photo) => (
+                                    <Box
+                                        key={photo.id}
+                                        borderRadius="xl"
+                                        overflow="hidden"
+                                        boxShadow="md"
+                                        cursor="pointer"
+                                        transition="transform 0.2s"
+                                        _hover={{ transform: "translateY(-4px)" }}
+                                        onClick={() => navigate("/photography")}
+                                    >
+                                        <Image
+                                            src={photo.url}
+                                            alt={photo.title}
+                                            objectFit="cover"
+                                            h="250px"
+                                            w="100%"
+                                        />
+                                    </Box>
+                                ))}
+                            </SimpleGrid>
+                        )}
+                    </Box>
 
-            {/* Tech Blog Preview Section */}
-            <Box>
-                <Box display="flex" justifyContent="space-between" alignItems="center" mb={6} px={4}>
-                    <Heading size="xl">Tech Blog</Heading>
-                    <Button variant="outline" colorPalette="blue" onClick={() => navigate("/blog")}>
-                        Read More
-                    </Button>
-                </Box>
+                    {/* Tech Blog Preview Section */}
+                    <Box>
+                        <Box display="flex" justifyContent="space-between" alignItems="center" mb={6} px={4}>
+                            <Heading size="xl">Tech Blog</Heading>
+                            <Button variant="outline" colorPalette="blue" onClick={() => navigate("/blog")}>
+                                Read More
+                            </Button>
+                        </Box>
 
-                <Box px={4}>
-                    <VStack gap={4} align="stretch">
-                        <BExpoRoutingTipsCard />
-                        <BExpoRoutingCard />
-                        <BMDCard />
-                    </VStack>
-                </Box>
-            </Box>
-
+                        <Box px={4}>
+                            {blogs.length === 0 ? (
+                                <Text color="fg.muted">まだ記事がありません。</Text>
+                            ) : (
+                                <VStack gap={4} align="stretch">
+                                    {blogs.map(blog => (
+                                        <DynamicBlogCard
+                                            key={blog.id}
+                                            title={blog.title}
+                                            pathParams={blog.pathParams}
+                                            tags={blog.tags}
+                                        />
+                                    ))}
+                                </VStack>
+                            )}
+                        </Box>
+                    </Box>
+                </>
+            )}
         </VStack>
     );
 };

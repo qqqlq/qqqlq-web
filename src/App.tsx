@@ -5,6 +5,11 @@ import Footer from './components/ui/layout/Footer';
 import BlogRoutes from './components/ui/Contents/BlogRoutes';
 import Home from './components/ui/Contents/Home';
 import Photography from './components/ui/Contents/Photography';
+import Login from './components/ui/Admin/Login';
+import Dashboard from './components/ui/Admin/Dashboard';
+import ProtectedRoute from './components/ui/Admin/ProtectedRoute';
+import BlogEditor from './components/ui/Admin/BlogEditor';
+import PhotoUploader from './components/ui/Admin/PhotoUploader';
 
 function App() {
 
@@ -22,6 +27,22 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/blog/*" element={<BlogRoutes />} />
               <Route path="/photography" element={<Photography />} />
+              <Route path="/admin/login" element={<Login />} />
+              <Route path="/admin" element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/blog/new" element={
+                <ProtectedRoute>
+                  <BlogEditor />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/photography/new" element={
+                <ProtectedRoute>
+                  <PhotoUploader />
+                </ProtectedRoute>
+              } />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </VStack>
