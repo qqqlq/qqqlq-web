@@ -1,35 +1,25 @@
-import { Card, Heading, Tag, HStack } from "@chakra-ui/react"
+import { Card, Heading, Tag, HStack, VStack } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
 import { getTagColor } from "../../../../constants/tags";
 
 const BMDCard = () => {
-
   const navigate = useNavigate();
-
-  const goToBlog = () => {
-    navigate("/blog/md");
-  };
-
-  // タグ色々
   const tags = ["learning", "React", "Markdown"];
 
   return (
     <>
-      <Card.Root width="100%" onClick={goToBlog} cursor="pointer">
-        <Card.Header>
-          <HStack gap={2} justifyContent="space-between">
+      <Card.Root width="100%" onClick={() => navigate("/blog/md")} cursor="pointer" _hover={{ transform: 'translateY(-2px)', shadow: 'md' }} transition="all 0.2s">
+        <Card.Body>
+          <VStack align="start" gap={2}>
             <Heading size="md">handle .md</Heading>
-            <HStack gap={2}>
+            <HStack gap={2} wrap="wrap">
               {tags.map(tag => (
                 <Tag.Root key={tag} cursor="pointer" colorPalette={getTagColor(tag)}>
                   <Tag.Label>{tag}</Tag.Label>
                 </Tag.Root>
               ))}
             </HStack>
-          </HStack>
-        </Card.Header>
-        <Card.Body color="fg.muted">
-          react-markdownを使用することで、.mdファイルを扱うことができます。
+          </VStack>
         </Card.Body>
       </Card.Root>
     </>
