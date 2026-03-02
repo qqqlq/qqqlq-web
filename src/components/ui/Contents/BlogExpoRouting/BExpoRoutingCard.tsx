@@ -1,4 +1,4 @@
-import { Card, Heading, Tag, HStack, VStack } from "@chakra-ui/react"
+import { Card, Heading, Tag, HStack, VStack, Text } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
 import { getTagColor } from "../../../../constants/tags";
 
@@ -19,6 +19,7 @@ const BExpoRoutingCard = () => {
                 </Tag.Root>
               ))}
             </HStack>
+            <Text color="fg.muted" fontSize="sm">Expoの動的ルーティング(クエリ形式との違い)</Text>
           </VStack>
         </Card.Body>
       </Card.Root>

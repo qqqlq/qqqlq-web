@@ -1,4 +1,4 @@
-import { Card, Heading, Tag, HStack, VStack } from "@chakra-ui/react"
+import { Card, Heading, Tag, HStack, VStack, Text } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
 import { getTagColor } from "../../../../constants/tags";
 
@@ -19,10 +19,9 @@ const BTestCard = () => {
                 </Tag.Root>
               ))}
             </HStack>
+            <Text color="fg.muted" fontSize="sm">テスト投稿</Text>
           </VStack>
         </Card.Body>
-        <Card.Footer pt={0} pb={4} px={6}>
-        </Card.Footer>
       </Card.Root>
     </>
   )

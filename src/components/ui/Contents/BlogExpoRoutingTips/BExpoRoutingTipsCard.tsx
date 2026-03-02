@@ -1,4 +1,4 @@
-import { Card, Heading, Tag, HStack, VStack } from "@chakra-ui/react"
+import { Card, Heading, Tag, HStack, VStack, Text } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
 import { getTagColor } from "../../../../constants/tags";
 
@@ -19,6 +19,7 @@ const BExpoRoutingTipsCard = () => {
                 </Tag.Root>
               ))}
             </HStack>
+            <Text color="fg.muted" fontSize="sm">expo-routerのルーティングのTips</Text>
           </VStack>
         </Card.Body>
       </Card.Root>

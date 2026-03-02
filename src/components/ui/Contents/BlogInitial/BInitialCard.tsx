@@ -1,4 +1,4 @@
-import { Card, Heading, Tag, HStack, VStack } from "@chakra-ui/react"
+import { Card, Heading, Tag, HStack, VStack, Text } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
 import { getTagColor } from "../../../../constants/tags";
 
@@ -19,6 +19,7 @@ const BInitialCard = () => {
                 </Tag.Root>
               ))}
             </HStack>
+            <Text color="fg.muted" fontSize="sm">最初の投稿です。reactにより作成。</Text>
           </VStack>
         </Card.Body>
       </Card.Root>
