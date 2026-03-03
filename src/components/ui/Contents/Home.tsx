@@ -1,9 +1,10 @@
-import { Box, Heading, Text, VStack, SimpleGrid, Image, Button, Spinner, Center } from "@chakra-ui/react";
+import { Box, Heading, Text, VStack, SimpleGrid, Button, Spinner, Center } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { collection, query, orderBy, limit, onSnapshot } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import DynamicBlogCard from "./DynamicBlogCard";
+import FadeImage from "./FadeImage";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -76,7 +77,7 @@ const Home = () => {
                                         _hover={{ transform: "translateY(-4px)" }}
                                         onClick={() => navigate("/photography")}
                                     >
-                                        <Image
+                                        <FadeImage
                                             src={photo.url}
                                             alt={photo.title}
                                             objectFit="cover"

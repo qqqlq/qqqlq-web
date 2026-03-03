@@ -1,7 +1,8 @@
-import { Box, Heading, Text, SimpleGrid, Image, VStack, Spinner, Center } from "@chakra-ui/react";
+import { Box, Heading, Text, SimpleGrid, VStack, Spinner, Center } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
+import FadeImage from "./FadeImage";
 
 const Photography = () => {
     const [photos, setPhotos] = useState<any[]>([]);
@@ -47,7 +48,7 @@ const Photography = () => {
                                 transition="all 0.3s ease"
                                 _hover={{ transform: "scale(1.02)", boxShadow: "xl" }}
                             >
-                                <Image
+                                <FadeImage
                                     src={photo.url}
                                     alt={photo.title}
                                     objectFit="cover"
