@@ -27,6 +27,7 @@
 - **Routing**: React Router (`react-router-dom`)
 - **Styling / UI**: Chakra UI
 - **Markdown Rendering**: `react-markdown`
+- **SEO**: `react-helmet-async`（ページごとのメタタグ・OGP・JSON-LD）
 
 # 記事・写真の追加方法
 
@@ -76,6 +77,14 @@ export default NewPost;
 7. （必要に応じて）特定の静的色を強制したい場合は、`@/constants/tags.ts` にて該当のタグと表示色 (`colorPalette`) の定義を追加する。
 
 # Changelog (変更履歴)
+
+- **2026-03-22** (SEO対策)
+  - `react-helmet-async` を導入し、ページごとに動的なメタタグ・OGPタグ・JSON-LD構造化データを出力するSEOコンポーネント（`src/components/SEO.tsx`）を追加。
+  - `public/robots.txt` / `public/sitemap.xml` を追加。
+  - ビルド時にFirestoreからブログ記事一覧を取得して `dist/sitemap.xml` を自動生成するスクリプト（`scripts/generate-sitemap.ts`）を追加。
+  - `<html lang="en">` を `lang="ja"` に修正。
+  - Google Search Console にサイトを登録・sitemap送信完了。
+  - 詳細: [`docs/seo-implementation.md`](docs/seo-implementation.md)
 
 - **2026-03** (Firebase CMS導入)
   - Firebase Authentication を用いたセキュアな管理者専用画面 (`/admin`) を構築。
