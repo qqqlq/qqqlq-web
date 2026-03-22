@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
 import BlogHead from './BlogHead';
+import SEO from '../../SEO';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Spinner, Center, Text, Box } from '@chakra-ui/react';
@@ -74,8 +75,30 @@ const BlogView = () => {
         </Center>
     );
 
+    const publishedTime = blog.createdAt?.toDate?.()?.toISOString();
+    const description = blog.content?.replace(/[#*`>!\-[\]]/g, '').trim().substring(0, 120);
+
     return (
         <Box w="100%">
+            <SEO
+                title={blog.title}
+                description={description}
+                path={`/blog/${blog.pathParams}`}
+                type="article"
+                publishedTime={publishedTime}
+                tags={blog.tags || []}
+                jsonLd={{
+                    "@context": "https://schema.org",
+                    "@type": "BlogPosting",
+                    "headline": blog.title,
+                    "description": description,
+                    "url": `https://blog.nodewalker.app/blog/${blog.pathParams}`,
+                    "datePublished": publishedTime,
+                    "author": { "@type": "Person", "name": "qqqlq" },
+                    "publisher": { "@type": "Person", "name": "qqqlq" },
+                    "keywords": (blog.tags || []).join(', '),
+                }}
+            />
             <BlogHead title={blog.title} params={blog.pathParams} tags={blog.tags || []} />
             <Box className="markdown-body" mt={8} bg="transparent">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>

@@ -1,5 +1,6 @@
 import { Box, Heading, Button, VStack, Flex, Text, Card, Image, HStack } from '@chakra-ui/react';
 import { auth, db } from '../../../lib/firebase';
+import SEO from '../../SEO';
 import { signOut } from 'firebase/auth';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
@@ -36,6 +37,7 @@ const Dashboard = () => {
 
     return (
         <VStack gap={8} align="stretch" py={10}>
+            <SEO title="Admin Dashboard" description="" path="/admin" noindex={true} />
             <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Heading>Admin Dashboard</Heading>
                 <Button colorPalette="red" variant="outline" onClick={handleLogout}>Logout</Button>

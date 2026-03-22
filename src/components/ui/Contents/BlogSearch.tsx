@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getTagColor } from "../../../constants/tags";
+import SEO from "../../SEO";
 import {
     Stack,
     Tag,
@@ -68,6 +69,12 @@ const BlogSearch = () => {
 
     return (
         <>
+            <SEO
+                title="ブログ検索"
+                description="タグでブログ記事を絞り込み検索できます。"
+                path="/blog/search"
+                noindex={true}
+            />
             <Separator orientation="vertical" />
             <Box borderBottom="2px solid" display="inline-block">
                 <HStack gap={2}>

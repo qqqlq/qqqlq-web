@@ -3,6 +3,7 @@ import { Box, Button, Input, VStack, Heading, Text } from '@chakra-ui/react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../lib/firebase';
 import { useNavigate } from 'react-router-dom';
+import SEO from '../../SEO';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -23,6 +24,8 @@ const Login = () => {
     };
 
     return (
+        <>
+        <SEO title="Admin Login" description="" path="/admin/login" noindex={true} />
         <Box maxW="md" mx="auto" mt={20} p={6} borderWidth={1} borderRadius="lg" boxShadow="lg">
             <VStack as="form" onSubmit={handleLogin} gap={4}>
                 <Heading size="lg">Admin Login</Heading>
@@ -33,6 +36,7 @@ const Login = () => {
                 <Button type="submit" colorPalette="blue" width="100%">Login</Button>
             </VStack>
         </Box>
+        </>
     );
 };
 

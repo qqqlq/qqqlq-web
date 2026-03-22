@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import FadeImage from "./FadeImage";
+import SEO from "../../SEO";
 
 const Photography = () => {
     const [photos, setPhotos] = useState<any[]>([]);
@@ -20,6 +21,12 @@ const Photography = () => {
 
     return (
         <VStack gap={8} align="stretch" w="100%" pb={10}>
+            <SEO
+                title="Photography"
+                description="qqqlqが撮影した写真のポートフォリオギャラリーです。"
+                path="/photography"
+                type="website"
+            />
             <Box textAlign="center" pt={10} pb={6}>
                 <Heading size="2xl" mb={4}>Photography</Heading>
                 <Text color="fg.muted" fontSize="lg">

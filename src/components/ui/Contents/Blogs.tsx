@@ -1,6 +1,7 @@
 import { Stack, Center, Spinner, Text } from "@chakra-ui/react"
 import Trans from "../layout/TopTrans";
 import DynamicBlogCard from "./DynamicBlogCard";
+import SEO from "../../SEO";
 import { useEffect, useState } from "react";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
@@ -36,6 +37,12 @@ const Blogs = () => {
 
   return (
     <>
+      <SEO
+        title="Tech Blog"
+        description="Web開発・モバイル開発などの技術記事一覧です。"
+        path="/blog"
+        type="website"
+      />
       <Trans />
 
       {loading ? (

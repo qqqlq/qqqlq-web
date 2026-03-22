@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { collection, query, orderBy, limit, onSnapshot } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
+import SEO from "../../SEO";
 import DynamicBlogCard from "./DynamicBlogCard";
 import FadeImage from "./FadeImage";
 
@@ -32,6 +33,12 @@ const Home = () => {
 
     return (
         <VStack gap={12} align="stretch" w="100%" py={10}>
+            <SEO
+                title="ホーム"
+                description="qqqlqの技術ブログ・写真ポートフォリオサイト。Web開発、モバイル開発などの技術記事と写真作品を公開しています。"
+                path="/"
+                type="website"
+            />
             {/* Hero Section */}
             <Box
                 textAlign="center"
