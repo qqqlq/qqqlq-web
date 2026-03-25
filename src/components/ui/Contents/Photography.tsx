@@ -4,15 +4,18 @@ import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import FadeImage from "./FadeImage";
 import SEO from "../../SEO";
+import { sortPhotos } from "../../../lib/photoUtils";
+import type { Photo } from "../../../types";
 
 const Photography = () => {
-    const [photos, setPhotos] = useState<any[]>([]);
+    const [photos, setPhotos] = useState<Photo[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const q = query(collection(db, 'photos'), orderBy('createdAt', 'desc'));
         const unsubscribe = onSnapshot(q, (snapshot) => {
-            setPhotos(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+            const raw = snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Photo));
+            setPhotos(sortPhotos(raw));
             setLoading(false);
         });
 

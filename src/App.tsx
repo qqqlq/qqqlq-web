@@ -38,6 +38,11 @@ function App() {
                   <BlogEditor />
                 </ProtectedRoute>
               } />
+              <Route path="/admin/blog/edit/:id" element={
+                <ProtectedRoute>
+                  <BlogEditor />
+                </ProtectedRoute>
+              } />
               <Route path="/admin/photography/new" element={
                 <ProtectedRoute>
                   <PhotoUploader />

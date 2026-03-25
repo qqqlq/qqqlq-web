@@ -6,11 +6,13 @@ import { db } from "../../../lib/firebase";
 import SEO from "../../SEO";
 import DynamicBlogCard from "./DynamicBlogCard";
 import FadeImage from "./FadeImage";
+import { sortPhotos } from "../../../lib/photoUtils";
+import type { Photo } from "../../../types";
 
 const Home = () => {
     const navigate = useNavigate();
     const [blogs, setBlogs] = useState<any[]>([]);
-    const [photos, setPhotos] = useState<any[]>([]);
+    const [photos, setPhotos] = useState<Photo[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -20,9 +22,10 @@ const Home = () => {
             setLoading(false);
         });
 
-        const qPhotos = query(collection(db, 'photos'), orderBy('createdAt', 'desc'), limit(3));
+        const qPhotos = query(collection(db, 'photos'), orderBy('createdAt', 'desc'), limit(10));
         const unsubPhotos = onSnapshot(qPhotos, (snapshot) => {
-            setPhotos(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+            const raw = snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Photo));
+            setPhotos(sortPhotos(raw).slice(0, 3));
         });
 
         return () => {

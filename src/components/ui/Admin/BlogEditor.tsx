@@ -1,21 +1,46 @@
-import { useState } from 'react';
-import { Box, Button, Input, VStack, Heading, Textarea, Flex, HStack } from '@chakra-ui/react';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { useState, useEffect } from 'react';
+import { Box, Button, Input, VStack, Heading, Textarea, Flex, HStack, Spinner, Center } from '@chakra-ui/react';
+import { addDoc, collection, serverTimestamp, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 const BlogEditor = () => {
+    const { id } = useParams<{ id?: string }>();
+    const isEditMode = !!id;
+
     const [title, setTitle] = useState('');
     const [pathParams, setPathParams] = useState('');
     const [tagsInput, setTagsInput] = useState('');
     const [description, setDescription] = useState('');
     const [content, setContent] = useState('');
     const [loading, setLoading] = useState(false);
+    const [fetching, setFetching] = useState(isEditMode);
     // @ts-ignore
     const [error, setError] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!isEditMode || !id) return;
+
+        setFetching(true);
+        getDoc(doc(db, 'blogs', id)).then((snap) => {
+            if (snap.exists()) {
+                const data = snap.data();
+                setTitle(data.title ?? '');
+                setPathParams(data.pathParams ?? '');
+                setTagsInput((data.tags ?? []).join(', '));
+                setDescription(data.description ?? '');
+                setContent(data.content ?? '');
+            }
+        }).catch((err) => {
+            console.error(err);
+            setError('記事の読み込みに失敗しました。');
+        }).finally(() => {
+            setFetching(false);
+        });
+    }, [id, isEditMode]);
 
     const handlePublish = async () => {
         if (!title || !content || !pathParams) {
@@ -29,34 +54,54 @@ const BlogEditor = () => {
         try {
             const tags = tagsInput.split(',').map(t => t.trim()).filter(t => t.length > 0);
 
-            await addDoc(collection(db, 'blogs'), {
-                title,
-                pathParams,
-                description,
-                tags,
-                content,
-                createdAt: serverTimestamp(),
-                published: true
-            });
+            if (isEditMode && id) {
+                await updateDoc(doc(db, 'blogs', id), {
+                    title,
+                    pathParams,
+                    description,
+                    tags,
+                    content,
+                    updatedAt: serverTimestamp(),
+                });
+                alert('記事を更新しました！');
+            } else {
+                await addDoc(collection(db, 'blogs'), {
+                    title,
+                    pathParams,
+                    description,
+                    tags,
+                    content,
+                    createdAt: serverTimestamp(),
+                    published: true
+                });
+                alert('記事を投稿しました！');
+            }
 
-            alert('記事を投稿しました！');
             navigate('/admin');
         } catch (err) {
             console.error(err);
-            setError('記事の投稿に失敗しました。Firestoreのルール設定等を確認してください。');
+            setError(isEditMode ? '記事の更新に失敗しました。' : '記事の投稿に失敗しました。Firestoreのルール設定等を確認してください。');
         } finally {
             setLoading(false);
         }
     };
 
+    if (fetching) {
+        return (
+            <Center h="50vh">
+                <Spinner size="xl" />
+            </Center>
+        );
+    }
+
     return (
         <VStack gap={6} align="stretch" py={8} h="90vh">
             <Flex justifyContent="space-between" alignItems="center">
-                <Heading>新しい記事を投稿</Heading>
+                <Heading>{isEditMode ? '記事を編集' : '新しい記事を投稿'}</Heading>
                 <HStack gap={4}>
                     <Button variant="outline" onClick={() => navigate('/admin')}>キャンセル</Button>
                     <Button colorPalette="blue" onClick={handlePublish} loading={loading}>
-                        公開する
+                        {isEditMode ? '更新する' : '公開する'}
                     </Button>
                 </HStack>
             </Flex>

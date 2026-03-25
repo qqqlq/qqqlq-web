@@ -34,7 +34,8 @@ const PhotoUploader = () => {
 
         try {
             // Upload to Firebase Storage
-            const storageRef = ref(storage, `photos/${Date.now()}_${file.name}`);
+            const storagePath = `photos/${Date.now()}_${file.name}`;
+            const storageRef = ref(storage, storagePath);
             const snapshot = await uploadBytes(storageRef, file);
             const downloadUrl = await getDownloadURL(snapshot.ref);
 
@@ -43,7 +44,10 @@ const PhotoUploader = () => {
                 title,
                 description,
                 url: downloadUrl,
+                storagePath,
                 createdAt: serverTimestamp(),
+                order: Date.now(),
+                pinned: false,
             });
 
             alert('写真をアップロードしました！');
