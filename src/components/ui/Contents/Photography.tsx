@@ -6,10 +6,12 @@ import FadeImage from "./FadeImage";
 import SEO from "../../SEO";
 import { sortPhotos } from "../../../lib/photoUtils";
 import type { Photo } from "../../../types";
+import PhotoLightbox from "./PhotoLightbox";
 
 const Photography = () => {
     const [photos, setPhotos] = useState<Photo[]>([]);
     const [loading, setLoading] = useState(true);
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
     useEffect(() => {
         const q = query(collection(db, 'photos'), orderBy('createdAt', 'desc'));
@@ -47,27 +49,36 @@ const Photography = () => {
                         <Text color="fg.muted">まだ写真がありません。</Text>
                     </Center>
                 ) : (
-                    <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} gap={6} px={4}>
-                        {photos.map((photo) => (
-                            <Box
-                                key={photo.id}
-                                overflow="hidden"
-                                borderRadius="xl"
-                                boxShadow="md"
-                                cursor="pointer"
-                                transition="all 0.3s ease"
-                                _hover={{ transform: "scale(1.02)", boxShadow: "xl" }}
-                            >
-                                <FadeImage
-                                    src={photo.url}
-                                    alt={photo.title}
-                                    objectFit="cover"
-                                    w="100%"
-                                    h={{ base: "300px", md: "400px" }}
-                                />
-                            </Box>
-                        ))}
-                    </SimpleGrid>
+                    <>
+                        <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} gap={6} px={4}>
+                            {photos.map((photo, index) => (
+                                <Box
+                                    key={photo.id}
+                                    overflow="hidden"
+                                    borderRadius="xl"
+                                    boxShadow="md"
+                                    cursor="pointer"
+                                    transition="all 0.3s ease"
+                                    _hover={{ transform: "scale(1.02)", boxShadow: "xl" }}
+                                    onClick={() => setSelectedIndex(index)}
+                                >
+                                    <FadeImage
+                                        src={photo.url}
+                                        alt={photo.title}
+                                        objectFit="cover"
+                                        w="100%"
+                                        h={{ base: "300px", md: "400px" }}
+                                    />
+                                </Box>
+                            ))}
+                        </SimpleGrid>
+                        <PhotoLightbox
+                            photos={photos}
+                            selectedIndex={selectedIndex}
+                            onClose={() => setSelectedIndex(null)}
+                            onSelect={setSelectedIndex}
+                        />
+                    </>
                 )
             }
         </VStack>
