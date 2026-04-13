@@ -49,20 +49,18 @@ const Home = () => {
                 py={20}
                 px={6}
                 borderRadius="2xl"
-                bg="black"
-                color="white"
+                bg="gray.100"
+                color="black"
                 boxShadow="xl"
-                backgroundImage="radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px)"
-                backgroundSize="24px 24px"
             >
-                <Heading size="3xl" mb={4} letterSpacing="widest" fontWeight="black">Hi, I'm qqqlq</Heading>
+                <Heading size="3xl" mb={4}>Hi, I'm qqqlq</Heading>
                 <Link
                     href="https://www.instagram.com/qqqlq__/"
                     target="_blank"
                     rel="noopener noreferrer"
                     opacity={0.7}
                     _hover={{ opacity: 1, textDecoration: "underline" }}
-                    color="white"
+                    color="black"
                 >
                     <HStack gap={1} justify="center">
                         <FaInstagram size={20} />
