@@ -1,5 +1,4 @@
-import { Box, Heading, Text, VStack, SimpleGrid, Button, Spinner, Center, Link, HStack } from "@chakra-ui/react";
-import { FaInstagram } from "react-icons/fa6";
+import { Box, Heading, Text, VStack, SimpleGrid, Button, Spinner, Center } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { collection, query, orderBy, limit, onSnapshot } from "firebase/firestore";
@@ -44,33 +43,32 @@ const Home = () => {
                 type="website"
             />
             {/* Hero Section */}
-            <Box
+            {/* <Box
                 textAlign="center"
                 py={20}
                 px={6}
                 borderRadius="2xl"
-                bg="gray.100"
-                color="black"
+                bgGradient="to-r"
+                gradientFrom="teal.500"
+                gradientTo="blue.500"
+                color="white"
                 boxShadow="xl"
             >
-                <Heading size="3xl" mb={4}>Hi, I'm qqqlq</Heading>
+                <Heading size="3xl" mb={6}>Hi, I'm qqqlq</Heading>
                 <Link
                     href="https://www.instagram.com/qqqlq__/"
                     target="_blank"
                     rel="noopener noreferrer"
                     opacity={0.7}
                     _hover={{ opacity: 1, textDecoration: "underline" }}
-                    color="black"
+                    color="white"
                 >
                     <HStack gap={1} justify="center">
                         <FaInstagram size={20} />
                         <Text fontSize="lg">@qqqlq__</Text>
                     </HStack>
                 </Link>
-                {/* <Text fontSize="xl" maxW="2xl" mx="auto" mb={8}>
-                    ソフトウェアエンジニア兼アマチュアフォトグラファー。ここには私の日々の技術的な学びや、趣味で撮影した写真のポートフォリオをまとめています。
-                </Text> */}
-            </Box>
+            </Box> */}
 
             {loading ? (
                 <Center h="20vh"><Spinner size="xl" /></Center>
