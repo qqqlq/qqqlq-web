@@ -48,9 +48,7 @@ const Home = () => {
                 py={20}
                 px={6}
                 borderRadius="2xl"
-                bgGradient="to-r"
-                gradientFrom="teal.500"
-                gradientTo="blue.500"
+                bg="black"
                 color="white"
                 boxShadow="xl"
             >
