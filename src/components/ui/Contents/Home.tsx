@@ -52,7 +52,18 @@ const Home = () => {
                 color="white"
                 boxShadow="xl"
             >
-                <Heading size="3xl" mb={6}>Hi, I'm qqqlq</Heading>
+                <Heading size="3xl" mb={4}>Hi, I'm qqqlq</Heading>
+                <Text
+                    as="a"
+                    href="https://www.instagram.com/qqqlq__/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    fontSize="lg"
+                    opacity={0.8}
+                    _hover={{ opacity: 1, textDecoration: "underline" }}
+                >
+                    📷 @qqqlq__
+                </Text>
                 {/* <Text fontSize="xl" maxW="2xl" mx="auto" mb={8}>
                     ソフトウェアエンジニア兼アマチュアフォトグラファー。ここには私の日々の技術的な学びや、趣味で撮影した写真のポートフォリオをまとめています。
                 </Text> */}
