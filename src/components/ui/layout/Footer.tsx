@@ -4,7 +4,7 @@ import {
     Stack
 } from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
-import { FaXTwitter, FaGithub } from "react-icons/fa6";
+import { FaXTwitter, FaGithub, FaInstagram } from "react-icons/fa6";
 
 const Footer = () => {
     return (
@@ -30,6 +30,15 @@ const Footer = () => {
                         _hover={{ color: 'gray.500' }}
                     >
                         <FaXTwitter />
+                    </Box>
+                    <Box
+                        as="button"
+                        onClick={() => window.open('https://www.instagram.com/qqqlq__/', '_blank')}
+                        cursor="pointer"
+                        fontSize="lg"
+                        _hover={{ color: 'gray.500' }}
+                    >
+                        <FaInstagram />
                     </Box>
                 </Stack>
                 </Flex>
