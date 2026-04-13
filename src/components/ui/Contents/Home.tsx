@@ -1,4 +1,5 @@
-import { Box, Heading, Text, VStack, SimpleGrid, Button, Spinner, Center } from "@chakra-ui/react";
+import { Box, Heading, Text, VStack, SimpleGrid, Button, Spinner, Center, Link, HStack } from "@chakra-ui/react";
+import { FaSquareInstagram } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { collection, query, orderBy, limit, onSnapshot } from "firebase/firestore";
@@ -53,17 +54,19 @@ const Home = () => {
                 boxShadow="xl"
             >
                 <Heading size="3xl" mb={4}>Hi, I'm qqqlq</Heading>
-                <Text
-                    as="a"
+                <Link
                     href="https://www.instagram.com/qqqlq__/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    fontSize="lg"
                     opacity={0.8}
                     _hover={{ opacity: 1, textDecoration: "underline" }}
+                    color="white"
                 >
-                    📷 @qqqlq__
-                </Text>
+                    <HStack gap={1} justify="center">
+                        <FaSquareInstagram size={20} />
+                        <Text fontSize="lg">@qqqlq__</Text>
+                    </HStack>
+                </Link>
                 {/* <Text fontSize="xl" maxW="2xl" mx="auto" mb={8}>
                     ソフトウェアエンジニア兼アマチュアフォトグラファー。ここには私の日々の技術的な学びや、趣味で撮影した写真のポートフォリオをまとめています。
                 </Text> */}
