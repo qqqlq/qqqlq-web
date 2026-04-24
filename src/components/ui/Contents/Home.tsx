@@ -22,7 +22,7 @@ const Home = () => {
             setLoading(false);
         });
 
-        const qPhotos = query(collection(db, 'photos'), orderBy('createdAt', 'desc'), limit(10));
+        const qPhotos = query(collection(db, 'photos'), orderBy('createdAt', 'desc'));
         const unsubPhotos = onSnapshot(qPhotos, (snapshot) => {
             const raw = snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Photo));
             setPhotos(sortPhotos(raw).slice(0, 3));
